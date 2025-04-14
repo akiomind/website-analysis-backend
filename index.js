@@ -18,23 +18,26 @@ app.post('/analyze', async (req, res) => {
   }
 
   try {
+    const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download('135.0.7049.84');
+
     const browser = await puppeteer.launch({
       headless: true,
+      executablePath: revisionInfo.executablePath,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-    // Extract the page title only
     const title = await page.title();
 
     await browser.close();
 
     res.json({
       message: 'Analysis successful',
-      title: title,
-      issues: [], // You can add real issue checks here later
+      title,
+      issues: [],
     });
   } catch (error) {
     console.error('Analysis failed:', error.message);
