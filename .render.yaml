@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: website-analysis-backend-api
+    env: node
+    buildCommand: ./render-build.sh
+    startCommand: node index.js
+    plan: free
