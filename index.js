@@ -37,7 +37,7 @@ app.post('/analyze', async (req, res) => {
       issues: [],
     });
   } catch (error) {
-    console.error('Analysis failed:', error.message);
+    console.error('Analysis failed:', error);
     res.status(500).json({ error: 'Failed to analyze the URL.' });
   }
 });
