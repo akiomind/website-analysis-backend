@@ -8,7 +8,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Define the /analyze route
 app.post('/analyze', async (req, res) => {
   const { url } = req.body;
   console.log(`Received URL: ${url}`);
@@ -18,8 +17,11 @@ app.post('/analyze', async (req, res) => {
   }
 
   try {
+    const executablePath = puppeteer.executablePath();
+
     const browser = await puppeteer.launch({
       headless: true,
+      executablePath,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
@@ -27,7 +29,6 @@ app.post('/analyze', async (req, res) => {
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     const title = await page.title();
-
     await browser.close();
 
     res.json({
