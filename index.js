@@ -18,12 +18,8 @@ app.post('/analyze', async (req, res) => {
   }
 
   try {
-    const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('135.0.7049.84');
-
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: revisionInfo.executablePath,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
